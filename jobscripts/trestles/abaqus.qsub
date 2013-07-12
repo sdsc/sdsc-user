@@ -1,0 +1,29 @@
+#!/bin/bash
+#PBS -N abaqus
+#PBS -q normal
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=48:00:00
+#PBS -o stdout.out
+#PBS -e stderr.err
+
+# Load the Abaqus module
+. /etc/profile.d/modules.sh
+module purge
+module load intel
+module load abaqus/6.11-2
+
+# Set JOBNAME to whatever your .inp file is called without the .inp extension
+JOBNAME=abaqusjob
+SCRATCHDIR=/scratch/$USER/$PBS_JOBID
+
+# Move all necessary input files to the scratch directory
+cd $PBS_O_WORKDIR
+cp -v $JOBNAME.* $SCRATCHDIR
+cd $SCRATCHDIR
+
+# Launch Abaqus
+abq6112.exe job=$JOBNAME input=$JOBNAME scratch=$SCRATCHDIR cpus=16 \
+            mp_mode=threads memory=60000mb interactive
+
+# Move all the results back to the job directory
+mv -v $JOBNAME.* $PBS_O_WORKDIR

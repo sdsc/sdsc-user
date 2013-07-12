@@ -1,0 +1,42 @@
+#!/bin/bash
+#PBS -N g09job
+#PBS -q shared
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=48:00:00
+#PBS -o stdout.out
+#PBS -e stderr.out
+
+# set this to whatever backup interval is suitable for your job.
+#   "300" = 300 seconds, "2h" = two hours, "1d" = 24 hours, etc.
+BACKUP_INTERVAL=1h
+
+# function to initiate a delayed backup of the checkpoint
+backup() {
+  # loop forever
+  while true
+  do
+    sleep $BACKUP_INTERVAL 
+    echo "backing up at $(date)"
+    # copy *.chk files from scratch back to job directory
+    rsync -avz $GAUSS_SCRDIR/*.chk $PBS_O_WORKDIR/
+    # can also copy both *.chk and *.wrf with the following command
+    #rsync -avz $GAUSS_SCRDIR/*.chk $GAUSS_SCRDIR/*.rwf $PBS_O_WORKDIR/
+  done
+}
+
+### Regular submit script follows
+cd $PBS_O_WORKDIR
+
+# Load the Gaussian module
+. /etc/profile.d/modules.sh
+module load gaussian
+
+# Set Gaussian scratch directory to the local SSD available on each node
+export GAUSS_SCRDIR=/scratch/$USER/$PBS_JOBID
+
+# Call the backup function before submitting the job and let it loop in
+#   the background
+backup &
+
+# Run Gaussian using 'input.com' as the input file and 'output.txt' as the output
+g09 < input.com > output.txt

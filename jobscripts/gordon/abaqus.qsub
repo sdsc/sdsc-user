@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -N abaqus
+#PBS -q normal
+#PBS -l nodes=1:ppn=16:native
+#PBS -l walltime=48:00:00
+#PBS -o stdout.out
+#PBS -e stderr.err
+
+# Set JOBNAME to whatever your .inp file is called without the .inp extension
+JOBNAME=abaqusjob
+
+# Load the Abaqus module
+. /etc/profile.d/modules.sh
+module purge
+module load intel
+module load abaqus/6.11-2
+
+# Launch Abaqus as 'interactive' to prevent the job from backgrounding
+abaqus job=$JOBNAME input=$JOBNAME scratch=/scratch/$USER/$PBS_JOBID \
+    cpus=16 mp_mode=threads memory=60000mb interactive

@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -N g09job
+#PBS -q normal
+#PBS -l nodes=1:ppn=16:native
+#PBS -l walltime=00:01:00
+#PBS -o stdout.out
+#PBS -e stderr.out
+
+cd $PBS_O_WORKDIR
+
+# Load the Gaussian module
+. /etc/profile.d/modules.sh
+module load gaussian
+
+# Set Gaussian scratch directory to the local SSD available on each node
+export GAUSS_SCRDIR=/scratch/$USER/$PBS_JOBID
+
+# Run Gaussian using 'input.com' as the input file and 'output.txt' as the output
+g09 < input.com > output.txt
