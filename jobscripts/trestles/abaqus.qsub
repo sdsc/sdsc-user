@@ -1,11 +1,18 @@
 #!/bin/bash
+################################################################################
+#  Sample script to run an Abaqus job on SDSC Trestles
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center            September 2013
+################################################################################
 #PBS -N abaqus
 #PBS -q normal
 #PBS -l nodes=1:ppn=32
 #PBS -l walltime=48:00:00
 #PBS -o stdout.out
 #PBS -e stderr.err
-#PBS -v Catalina_license_request_list=abaqus_16
+#PBS -v Catalina_license_request_list=abaqus_32
+#  Be sure to change the 16 above if you change the cpus= option when calling
+#  the abaqus command below!
 
 # Set JOBNAME to whatever your .inp file is called without the .inp extension
 JOBNAME=abaqusjob
@@ -19,5 +26,5 @@ module load abaqus/6.11-2
 cd $PBS_O_WORKDIR
 
 # Launch Abaqus as 'interactive' to prevent the job from backgrounding
-abaqus job=$JOBNAME input=$JOBNAME scratch=/scratch/$USER/$PBS_JOBID \
+abq6112.exe job=$JOBNAME input=$JOBNAME scratch=/scratch/$USER/$PBS_JOBID \
     cpus=32 mp_mode=threads memory=60000mb interactive

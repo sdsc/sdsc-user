@@ -1,4 +1,9 @@
 #!/bin/bash
+################################################################################
+#  Sample script to run an Abaqus job on SDSC Gordon
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center            September 2013
+################################################################################
 #PBS -N abaqus
 #PBS -q normal
 #PBS -l nodes=1:ppn=16:native
@@ -6,12 +11,14 @@
 #PBS -o stdout.out
 #PBS -e stderr.err
 #PBS -v Catalina_license_request_list=abaqus_16
+#  Be sure to change the 16 above if you change the cpus= option when calling
+#  the abaqus command below!
 
 # Set JOBNAME to whatever your .inp file is called without the .inp extension
 JOBNAME=abaqusjob
 
 # Load the Abaqus module
-. /etc/profile.d/modules.sh
+export MODULEPATH=/home/diag/opt/modulefiles/applications:$MODULEPATH
 module load abaqus
 
 cd $PBS_O_WORKDIR
