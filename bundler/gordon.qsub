@@ -1,13 +1,16 @@
 #!/bin/bash
 #PBS -q normal
-#PBS -l nodes=1:ppn=16:native
+#PBS -l nodes=4:ppn=16:native
 #PBS -l walltime=1:00:00
 #PBS -N bundler.gordon
 
+TASKS=tasks         # the name of your tasks list
+module load octave  # if your tasks need the octave module 
+
 cd $PBS_O_WORKDIR
-module load octave python
+module load python  # necessary for bundler.py on Gordon
 mpirun_rsh -export \
-           -np 16 \
+           -np $(cat $TASKS | wc -l) \
            -hostfile $PBS_NODEFILE \
            MV2_ENABLE_AFFINITY=0 \
-           ./bundler.py tasks
+           ./bundler.py $TASKS

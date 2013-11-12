@@ -37,5 +37,5 @@ for i in range(ntasks):
     if myid == (i % numprocs):
         task = tasks[i]
         task.rstrip()
-        print "MPI process %d on %s running task [%s]" % (myid, hostname, task)
+        print "MPI process %d on %s running task [%s]" % (myid, hostname, task.strip())
         os.system(task)
