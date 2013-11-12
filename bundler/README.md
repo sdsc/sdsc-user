@@ -1,0 +1,4 @@
+* bundler.py - this is the job controller script that interfaces MPI with your octave script. You shouldn't have to modify this at all
+* tasks - this is a text file that contains one line for each invocation of the octave script you want to run. When I was testing, I ran sixteen different j_1,j_2 values, so there are sixteen lines in this "tasks" file. The lines can be arbitrarily complex if you want (e.g., you can put multiple commands on a single line if you separate them with ;, per bash convention).
+* bundler.qsub - this is the new job script that replaces runMain.sh. Right now it has "nodes=1:ppn=16" which means it will run sixteen different j_1,j_2 pairs. You will have to change both the "#PBS -l nodes=1:ppn=16" and "mpirun_rsh -export -np 16" lines to run more than 16 j_1,j_2 pairs at the same time. You can use multiple nodes if you want, and you don't have to run a multiple of 16 j_1,j_2 values if you don't want to. For example,
+
