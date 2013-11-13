@@ -10,15 +10,17 @@
 #PBS -l walltime=24:00:00
 #PBS -q normal
 
-export PREFIX=$HOME/espresso-5.0.1 
-export BIN_DIR=$PREFIX/bin 
+export ESPRESSO_HOME=$HOME/espresso-5.0.1 
 export ESPRESSO_TMPDIR=/scratch/$USER/$PBS_JOBID 
-#export ESPRESSO_PSEUDO=. 
+export ESPRESSO_PSEUDO=$ESPRESSO_HOME/pseudo
 
-mpirun $BIN_DIR/pw.x < espresso.in
+mpirun $ESPRESSO_HOME/bin/pw.x < espresso.in
 
-mynode=0
-for node in $(uniq $PBS_NODEFILE)
+### Gather all the output data from each node's SSD
+nn=0
+for node in $(/usr/bin/uniq $PBS_NODEFILE)
 do
-  ssh $node "cd $ESPRESSO_TMPDIR && tar cf $PBS_O_WORKDIR/node${mynode}-output.tar *"
+    echo "Copying output data from node $node"
+    ssh $node "cd $OUTDIR && tar cvf $PBS_O_WORKDIR/node$nn-output.tar *"
+    let "nn++"
 done
