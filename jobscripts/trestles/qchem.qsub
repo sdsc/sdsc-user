@@ -1,0 +1,18 @@
+#!/bin/bash
+################################################################################
+#  QChem job submission script for XSEDE/SDSC Trestles - UNTESTED
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center               August 2013
+################################################################################
+#PBS -q normal
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=10:00:00
+
+cd $PBS_O_WORKDIR
+
+. /etc/profile.d/modules.sh
+module load qchem
+
+export QCLOCALSCR=/scratch/$USER/$PBS_JOBID
+
+qchem -save -np 32 force_b3lyp.in force_b3lyp.out
