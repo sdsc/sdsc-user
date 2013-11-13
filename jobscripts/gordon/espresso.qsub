@@ -1,0 +1,24 @@
+#!/bin/bash
+################################################################################
+#  Submit script for Quantum Espresso on XSEDE/SDSC Gordon
+#  NOT TESTED YET--USE AT OWN RISK
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center             November 2013
+################################################################################
+#PBS -N espresso
+#PBS -l nodes=4:ppn=16:native
+#PBS -l walltime=24:00:00
+#PBS -q normal
+
+export PREFIX=$HOME/espresso-5.0.1 
+export BIN_DIR=$PREFIX/bin 
+export ESPRESSO_TMPDIR=/scratch/$USER/$PBS_JOBID 
+#export ESPRESSO_PSEUDO=. 
+
+mpirun $BIN_DIR/pw.x < espresso.in
+
+mynode=0
+for node in $(uniq $PBS_NODEFILE)
+do
+  ssh $node "cd $ESPRESSO_TMPDIR && tar cf $PBS_O_WORKDIR/node${mynode}-output.tar *"
+done
