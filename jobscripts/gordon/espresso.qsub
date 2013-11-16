@@ -1,14 +1,34 @@
 #!/bin/bash
 ################################################################################
 #  Submit script for Quantum Espresso on XSEDE/SDSC Gordon
-#  NOT TESTED YET--USE AT OWN RISK
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center             November 2013
 ################################################################################
 #PBS -N espresso
 #PBS -l nodes=4:ppn=16:native
-#PBS -l walltime=24:00:00
+#PBS -l walltime=10:00:00
 #PBS -q normal
+
+### Flush contents of each node's SSD back to workdir
+preserve_ssds() {
+    nn=0
+    for node in $(/usr/bin/uniq $PBS_NODEFILE)
+    do
+        echo "$(date) :: Copying output data from node $node"
+        command="cd $ESPRESSO_TMPDIR && tar cvf $PBS_O_WORKDIR/node$nn-output.tar *"
+        if [ $1 == "parallel" ]; then
+            ssh $node "$command" &
+        else
+            ssh $node "$command"
+        fi
+        let "nn++"
+    done
+    wait
+}
+
+cd $PBS_O_WORKDIR
+
+module swap mvapich2_ib openmpi_ib
 
 export ESPRESSO_HOME=$HOME/espresso-5.0.1 
 export ESPRESSO_TMPDIR=/scratch/$USER/$PBS_JOBID 
@@ -16,11 +36,4 @@ export ESPRESSO_PSEUDO=$ESPRESSO_HOME/pseudo
 
 mpirun $ESPRESSO_HOME/bin/pw.x < espresso.in
 
-### Gather all the output data from each node's SSD
-nn=0
-for node in $(/usr/bin/uniq $PBS_NODEFILE)
-do
-    echo "Copying output data from node $node"
-    ssh $node "cd $OUTDIR && tar cvf $PBS_O_WORKDIR/node$nn-output.tar *"
-    let "nn++"
-done
+preserve_ssds
