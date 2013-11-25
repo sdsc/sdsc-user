@@ -3,12 +3,14 @@
 #  Job script to spin up a semi-persistent Hadoop cluster on XSEDE/SDSC Gordon
 #
 #  INSTRUCTIONS FOR USE:
-#  1. Modify the "#PBS -l nodes=2:ppn=16:native" and "#PBS -l walltime=6:00:00"
-#     lines below if you'd like:  
-#     a) If you wanted to use 4 hadoop nodes in your cluster, change the "#PBS
-#        -l nodes=2:ppn=16:native" to "#PBS -l nodes=4:ppn=16:native"
-#     b) If you change the requested walltime, also change the WALLTIME=6 to 
-#        match your new requested walltime.
+#  1. (OPTIONAL) Modify the "#PBS -l nodes=2:ppn=16:native" and 
+#     "#PBS -l walltime=6:00:00" lines below if you'd like:  
+#     a) If you wanted to use 4 hadoop nodes in your cluster, change the 
+#        "#PBS -l nodes=2:ppn=16:native" to "#PBS -l nodes=4:ppn=16:native".  
+#        You must also change the NUMNODES=2 line below to NUMNODES=4
+#     b) If you wanted to keep your cluster alive for 12 hours, change the
+#        "#PBS -l walltime=6:00:00" to "#PBS -l walltime=12:00:00".  You must
+#        also change the WALLTIME=6 line below to WALLTIME=12
 #  2. Submit this script without any further modification
 #  3. The job will wait in the queue (qstat -u $USER to check its status), and 
 #     once it goes into the R (Running) state, a file called setenv.sourceme 
@@ -16,7 +18,7 @@
 #     to the personal Hadoop cluster you just launched.
 #  4. Follow the instructions EXACTLY.  They will instruct you to do two things:
 #     a) ssh into the primary node of your Hadoop cluster (ssh gcn-XX-YY)
-#     b) ***this is important!***  source a configuration file to establish the
+#     b) ***THIS IS IMPORTANT!***  source the configuration file to establish the
 #        correct environment settings so that you can interact with your 
 #        personal Hadoop cluster.
 #
@@ -37,6 +39,7 @@
 WALLTIME=6      # Specify how many hours you want your cluster to remain up.
                 # This should be the same as your "#PBS -l walltime=" line 
                 # above!
+NUMNODES=2
 
 ################################################################################
 ### You don't need to modify anything below this point!                      ###
@@ -86,7 +89,7 @@ EOF
 export PBS_NODEFILEZ=$(mktemp)
 sed -e 's/$/.ibnet0/g' $PBS_NODEFILE > $PBS_NODEFILEZ
 
-$MY_HADOOP_HOME/bin/configure.sh -n 2 -c $HADOOP_CONF_DIR || exit 1
+$MY_HADOOP_HOME/bin/configure.sh -n $NUMNODES -c $HADOOP_CONF_DIR || exit 1
 
 ### Gordon: myHadoop template environment has dummy vars that must be replaced
 sed -i 's:^export HADOOP_PID_DIR=.*:export HADOOP_PID_DIR=/scratch/'$USER'/'$PBS_JOBID':' $HADOOP_CONF_DIR/hadoop-env.sh
@@ -100,4 +103,4 @@ sleep $(($WALLTIME*3600-180))
 
 $HADOOP_HOME/bin/stop-all.sh
 cp -Lr $HADOOP_LOG_DIR $PBS_O_WORKDIR/hadoop-logs.$PBS_JOBID
-$MY_HADOOP_HOME/bin/pbs-cleanup.sh -n 2
+$MY_HADOOP_HOME/bin/pbs-cleanup.sh -n $NUMNODES
