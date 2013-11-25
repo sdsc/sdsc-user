@@ -1,4 +1,9 @@
 #!/bin/bash
+################################################################################
+#  Gaussian job submission script for XSEDE/SDSC Trestles
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center                June 2013
+################################################################################
 #PBS -N g09job
 #PBS -q shared
 #PBS -l nodes=1:ppn=16

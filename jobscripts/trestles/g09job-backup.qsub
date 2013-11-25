@@ -1,4 +1,10 @@
 #!/bin/bash
+################################################################################
+#  Gaussian job submission script for XSEDE/SDSC Gordon.  Includes function to
+#  perform periodic backup of files located on SSD.
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center                June 2013
+################################################################################
 #PBS -N g09job
 #PBS -q shared
 #PBS -l nodes=1:ppn=16

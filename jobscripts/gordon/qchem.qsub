@@ -4,6 +4,7 @@
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center            November 2013
 ################################################################################
+#PBS -N qchemjob
 #PBS -q normal
 #PBS -l nodes=2:ppn=16:native
 #PBS -l walltime=10:00:00
