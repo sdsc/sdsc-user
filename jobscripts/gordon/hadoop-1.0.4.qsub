@@ -34,7 +34,7 @@
 #PBS -q normal
 #PBS -j oe
 #PBS -o hadoopcluster.log
-#PBS -V
+#PBS -v Catalina_maxhops=None
 
 WALLTIME=6      # Specify how many hours you want your cluster to remain up.
                 # This should be the same as your "#PBS -l walltime=" line 
@@ -64,8 +64,10 @@ mynode=$(/bin/cat $PBS_NODEFILE|head -n1)
 myjob=$(/bin/cut -d. -f1 <<< $PBS_JOBID)
 cat << EOF >> setenv.sourceme
 export HADOOP_CONF_DIR=$HADOOP_CONF_DIR
+export PIG_HOME=/home/diag/opt/pig/pig-0.12.0
+export PIG_CLASSPATH=$HADOOP_CONF_DIR
 export PATH=$HADOOP_HOME/bin:\$PATH
-export PATH=/home/glock/python27/bin:\$PATH
+export PATH=/home/glock/python27/bin:/home/diag/opt/pig/pig-0.12.0/bin:\$PATH
 export LD_LIBRARY_PATH=/home/glock/python27/lib:\$LD_LIBRARY_PATH
 echo "OK, you are all set to use your Hadoop cluster now!"
 ################################################################################
@@ -87,7 +89,7 @@ EOF
 
 ### Gordon: Enable Hadoop over Infiniband (add ".ibnet0" suffix to hostnames)
 export PBS_NODEFILEZ=$(mktemp)
-sed -e 's/$/.ibnet0/g' $PBS_NODEFILE > $PBS_NODEFILEZ
+sed -e 's/$/.ibnet0/g' $PBS_NODEFILE | uniq > $PBS_NODEFILEZ
 
 $MY_HADOOP_HOME/bin/configure.sh -n $NUMNODES -c $HADOOP_CONF_DIR || exit 1
 
