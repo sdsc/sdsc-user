@@ -18,5 +18,5 @@ mpirun_rsh -export \
     -np $(cat $TASKS | wc -l) \
     -hostfile $PBS_NODEFILE \
     MV2_ENABLE_AFFINITY=0 \
-    /home/diag/opt/mpi4py/1.3.1/lib/python2.7/site-packages/mpi4py/bin/python-mpi \
+    /home/diag/opt/mpi4py/mvapich2/intel/1.3.1/lib/python/mpi4py/bin/python-mpi \
     ./bundler.py $TASKS
