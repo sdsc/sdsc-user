@@ -55,7 +55,9 @@ export HADOOP_CONF_DIR=$PBS_O_WORKDIR/$PBS_JOBID
 grep '^export' $MY_HADOOP_HOME/bin/configure.sh > setenv.sourceme
 source setenv.sourceme
 
-### Use a special version of Hadoop (1.0.4 instead of 1.1.1)
+### Use a special version of Hadoop (e.g., 1.0.4 instead of 1.1.1).  Just 
+### uncomment the following line and point it at whatever hadoop installation
+### you want.
 #export HADOOP_HOME=/home/diag/opt/hadoop/hadoop-1.0.4
 
 ### Overwrite $HADOOP_HOME from core MyHadoop configure.sh; provide setenv.sourceme
