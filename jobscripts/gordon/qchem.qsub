@@ -1,0 +1,23 @@
+#!/bin/bash
+################################################################################
+#  QChem job submission script for XSEDE/SDSC Gordon
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center            November 2013
+################################################################################
+#PBS -N qchemjob
+#PBS -q normal
+#PBS -l nodes=2:ppn=16:native
+#PBS -l walltime=10:00:00
+
+cd $PBS_O_WORKDIR
+
+module load qchem
+
+# QCSCRATCH needs to be a directory shared across nodes.  Defaults to $PWD, and
+# all job output will reside here
+#export QCSCRATCH=/oasis/scratch/$USER/$PBS_JOBID
+
+# QCLOCALSCR is a node-local scratch directory (e.g., the SSD on each node)
+export QCLOCALSCR=/scratch/$USER/$PBS_JOBID
+
+qchem -save -np 32 force_b3lyp.in force_b3lyp.out

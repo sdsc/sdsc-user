@@ -1,8 +1,13 @@
 #!/bin/bash
+################################################################################
+#  Gaussian job submission script for XSEDE/SDSC Gordon
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center                June 2013
+################################################################################
 #PBS -N g09job
 #PBS -q normal
 #PBS -l nodes=1:ppn=16:native
-#PBS -l walltime=00:01:00
+#PBS -l walltime=48:00:00
 #PBS -o stdout.out
 #PBS -e stderr.out
 

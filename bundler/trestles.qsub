@@ -1,0 +1,24 @@
+#!/bin/bash
+################################################################################
+#  Submit script for SDSC's Python-based job bundler for XSEDE/SDSC Trestles
+#
+#  NEEDS TO BE UPDATED AFTER 2013-DEC-07
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center             November 2013
+################################################################################
+#PBS -N bundler.trestles
+#PBS -q normal
+#PBS -l nodes=2:ppn=32
+#PBS -l walltime=1:00:00
+. /etc/profile.d/modules.sh
+
+TASKS=tasks         # the name of your tasks list
+module load octave  # if your tasks need the octave module 
+
+cd $PBS_O_WORKDIR
+module load intel   # necessary for bundler.py on Trestles
+mpirun_rsh \
+           -np $(cat $TASKS | wc -l) \
+           -hostfile $PBS_NODEFILE \
+           MV2_ENABLE_AFFINITY=0 \
+           ./bundler.py $TASKS
