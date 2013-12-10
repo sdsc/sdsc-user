@@ -4,29 +4,45 @@
 #include <string.h>
 #include <unistd.h>
 #include <sched.h>
+#include <mpi.h>
 
-void print_cpuset( char *buffer, size_t string_size, cpu_set_t *cpuset );
+void print_hello( int mpi_rank, int mpi_size );
 
-#define STRING_SIZE 1024
 int main ( int argc, char** argv )
 {
+    int i;
     int mpi_rank, mpi_size;
-    char host[STRING_SIZE];
 
     MPI_Init( &argc, &argv );
     MPI_Comm_rank( MPI_COMM_WORLD, &mpi_rank );
     MPI_Comm_size( MPI_COMM_WORLD, &mpi_size );
 
+    /* done this way to make sure the output is sorted */
+    for ( i = 0; i < mpi_size; i++ ) {
+        if ( i == mpi_rank ) {
+            print_hello( mpi_rank, mpi_size );
+        }
+        MPI_Barrier( MPI_COMM_WORLD );
+    }
+
+    MPI_Finalize();
+    return 0;
+}
+
+#define STRING_SIZE 1024
+void print_hello( int mpi_rank, int mpi_size )
+{
+
+    char host[STRING_SIZE];
     gethostname( host, STRING_SIZE );
-#if defined(_OPENMP) 
     #pragma omp parallel
     {
+        int i, count;
         char buffer[STRING_SIZE];
         char mybuf[STRING_SIZE] = "";
         cpu_set_t my_cpuset;
 
-        sched_getaffinity(0, sizeof(cpu_set_t), &my_cpuset);
-
+#if defined(_OPENMP) 
         snprintf( buffer, STRING_SIZE, 
             "Hello from thread %2d of %2d in rank %3d of %3d running on cpu %2d[",
             omp_get_thread_num(), 
@@ -34,8 +50,27 @@ int main ( int argc, char** argv )
             mpi_rank, 
             mpi_size, 
             sched_getcpu() );
+#else
+        snprintf( buffer, STRING_SIZE, 
+            "Hello from rank %3d of %3d running on cpu %2d[",
+            mpi_rank, 
+            mpi_size, 
+            sched_getcpu() );
+#endif
 
-        print_cpuset( buffer, STRING_SIZE, &my_cpuset ),
+        /* convert the cpuset into a string */
+        sched_getaffinity(0, sizeof(cpu_set_t), &my_cpuset);
+        for (i = 0, count = 0; i < CPU_SETSIZE; i++ )
+        {
+            if ( CPU_ISSET( i, &my_cpuset ) )
+            {
+                char mybuf[STRING_SIZE];
+                *mybuf = '\0';
+                if ( count++ > 0 ) strncat(buffer, ",", STRING_SIZE );
+                snprintf( mybuf, STRING_SIZE, "%d", i );
+                strncat(buffer, mybuf, STRING_SIZE );
+            }
+        }
 
         snprintf(mybuf, STRING_SIZE,  "] on %s\n", host );
         strncat(buffer, mybuf, STRING_SIZE);
@@ -45,38 +80,6 @@ int main ( int argc, char** argv )
             printf( buffer );
         }
     }
-#else
-    printf( "Hello from rank %d of %d running on cpu %d on %s\n", 
-        mpi_rank, 
-        mpi_size, 
-        sched_getcpu(),
-        host );
-#endif
 
-    MPI_Finalize();
-    return 0;
-}
-
-void print_cpuset( char *buffer, size_t string_size, cpu_set_t *cpuset )
-{
-    int i, count;
-
-    if ( !cpuset ) 
-    {
-        strncat( buffer, "ERR:null cpuset", STRING_SIZE );
-        return;
-    }
-
-    for (i = 0, count = 0; i < CPU_SETSIZE; i++ )
-    {
-        if ( CPU_ISSET ( i, cpuset ) )
-        {
-            char mybuf[STRING_SIZE];
-            *mybuf = '\0';
-            if ( count++ > 0 ) strncat(buffer, ",", STRING_SIZE );
-            snprintf( mybuf, STRING_SIZE, "%d", i );
-            strncat(buffer, mybuf, STRING_SIZE );
-        }
-    }
     return;
 }
