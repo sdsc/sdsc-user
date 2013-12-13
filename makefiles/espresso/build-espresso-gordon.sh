@@ -18,7 +18,7 @@
 #  version 5.0.1 on SDSC Gordon
 
 module purge
-module load intel openmpi_ib gnubase
+module load gnubase intel openmpi_ib
 
 make distclean
 
