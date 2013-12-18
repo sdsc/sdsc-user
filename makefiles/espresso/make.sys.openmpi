@@ -4,11 +4,13 @@
 #    to provide BLAS, LAPACK, and FFTW3.  
 #
 #  Dec 17, 2013: Tested on Dec 17 for high-performance on SDSC's Trestles 
-#                resource.  Not performance tested on Gordon yet.
+#                and Gordon resources.
+#
 #  ****************************************************************************
 #  *** Note - Do not link against Intel MKL's ScaLAPACK when using OpenMPI  ***
-#  ***     on Trestles.  Doing so will lead to significant performance      ***
-#  ***                            degradation!                              ***
+#  ***        on SDSC's Gordon or Trestles resources!  Significant loss of  ***
+#  ***        performance has been encountered with MKL 11.0.1's ScaLAPACK  ***
+#  ***        bindings build against OpenMPI.                               ***
 #  ****************************************************************************
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center             December 2013

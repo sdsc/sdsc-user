@@ -4,7 +4,7 @@
 #    to provide BLAS, ScaLAPACK, and FFTW3.  
 #
 #  Dec 17, 2013: Tested on Dec 17 for high-performance on SDSC's Trestles 
-#                resource.  Not performance tested on Gordon yet.
+#                and Gordon resources
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center             December 2013
 ################################################################################
