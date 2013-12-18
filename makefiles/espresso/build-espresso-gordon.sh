@@ -1,9 +1,9 @@
 #!/bin/bash
 ################################################################################
-#  Meta-build process to compile Quantum Espresso on XSEDE/SDSC Gordon
-#  NOT THOROUGHLY TESTED--report issues to help@xsede.org attn: Glenn
+#  Meta-build process to compile Quantum Espresso on XSEDE/SDSC's Gordon and
+#  Trestles resources.
 #
-#  Glenn K. Lockwood, San Diego Supercomputer Center             November 2013
+#  Glenn K. Lockwood, San Diego Supercomputer Center             December 2013
 ################################################################################
 #
 #  This script automates the following process:
@@ -15,10 +15,14 @@
 #  3. Copy the contents of BLAS_LIB to LAPACK_LIB
 #
 #  This script should run out of your Quantum Espresso source tree.  Tested with
-#  version 5.0.1 on SDSC Gordon
+#  version 5.0.1 and 5.0.3 on SDSC Gordon and Trestles
+
+### Choose either mvapich2 or OpenMPI.  mvapich2 is recommended.
+MPI_STACK=mvapich2
+#MPI_STACK=openmpi
 
 module purge
-module load gnubase intel openmpi_ib
+module load gnubase intel ${MPI_STACK}_ib 
 
 make distclean
 
@@ -40,4 +44,16 @@ sed -i 's/-D__FFTW[^3]/-D__FFTW3 /' make.sys
 sed -i "s/^FFT_LIBS *=.*$/FFT_LIBS = $blas_libs/" make.sys
 sed -i "s/^LAPACK_LIBS *=.*$/LAPACK_LIBS = $blas_libs/" make.sys
 
-make -j16 all || make all
+### Special hack -- disable MKL ScaLAPACK if using OpenMPI due to performance
+###  problems with  MKL's bundled ScaLAPACK bindings
+if [ "z$MPI_STACK" == "zopenmpi" ]; then
+  sed -i 's/-D__SCALAPACK//' make.sys
+fi
+
+### Need to manually specify Intel MPI (MVAPICH2) ScaLAPACK library to fix the
+### incorrectly autodetected openmpi ScaLAPACK
+if [ "z$MPI_STACK" == "zmvapich2" ]; then
+  sed -i 's/mkl_blacs_openmpi_lp64/mkl_blacs_intelmpi_lp64/' make.sys
+fi
+
+make all
