@@ -19,8 +19,8 @@ Known Issues
 ------------
 Users have reported problems (segmentation faults) for the following cases:
 
-* Gordon: Intel+MVAPICH2 (Intel+OpenMPI was the fix)
-* Trestles: PGI+MVAPICH2 (Intel+MVAPICH2 was the fix)
+* Gordon: Users are reporting issues with binaries compiled against mvapich2.  We are looking into this.
+* Trestles: PGI compilers are known to conflict with Quantum ESPRESSO's IOTK library.  If you experience segmentation violations when ESPRESSO tries to write its output, you are hitting this error.  You should build against -D__IOTK_WORKAROUND1, -D__IOTK_SAFEST, and/or -O3 to work around this particular error; however, be forewarned that performance may remain suboptimal due to problems with the ACML library that ships with PGI.  Use PGI to compile Quantum Espresso at your own risk!
 
 If you run into any issues like this, try using a different compiler or MPI
 implementation.  If you need more specific guidance, contact [help@xsede.org](mailto:help@xsede.org).

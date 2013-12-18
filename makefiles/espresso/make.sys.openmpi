@@ -1,6 +1,15 @@
 ################################################################################
 #  make.sys.openmpi - Build Quantum ESPRESSO 5.0 on XSEDE/SDSC's Gordon 
-#    resource with Intel compilers and OpenMPI
+#    and Trestles resources with Intel compilers, MVAPICH2, and Intel's MKL
+#    to provide BLAS, LAPACK, and FFTW3.  
+#
+#  Dec 17, 2013: Tested on Dec 17 for high-performance on SDSC's Trestles 
+#                resource.  Not performance tested on Gordon yet.
+#  ****************************************************************************
+#  *** Note - Do not link against Intel MKL's ScaLAPACK when using OpenMPI  ***
+#  ***     on Trestles.  Doing so will lead to significant performance      ***
+#  ***                            degradation!                              ***
+#  ****************************************************************************
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center             December 2013
 ################################################################################
@@ -36,6 +45,7 @@
 # With the exception of IBM xlf, FDFLAGS = $(DFLAGS)
 # For IBM xlf, FDFLAGS is the same as DFLAGS with separating commas 
 
+#DFLAGS         =  -D__INTEL -D__FFTW3 -D__MPI -D__PARA -D__SCALAPACK
 DFLAGS         =  -D__INTEL -D__FFTW3 -D__MPI -D__PARA -D__SCALAPACK
 FDFLAGS        = $(DFLAGS)
 

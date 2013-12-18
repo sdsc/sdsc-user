@@ -1,6 +1,10 @@
 ################################################################################
 #  make.sys.mvapich2 - Build Quantum ESPRESSO 5.0 on XSEDE/SDSC's Gordon 
-#    resource with Intel compilers and MVAPICH2
+#    and Trestles resources with Intel compilers, MVAPICH2, and Intel's MKL
+#    to provide BLAS, ScaLAPACK, and FFTW3.  
+#
+#  Dec 17, 2013: Tested on Dec 17 for high-performance on SDSC's Trestles 
+#                resource.  Not performance tested on Gordon yet.
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center             December 2013
 ################################################################################
