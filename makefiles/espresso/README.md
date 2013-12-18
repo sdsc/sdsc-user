@@ -4,9 +4,9 @@ This directory contains a few tools to help users of SDSC's Gordon and Trestles
 resources build Quantum Espresso 5.0 with either OpenMPI or MVAPICH2 and 
 Intel's hardware-accelerated MKL libraries.
 
-* `build-espresso.sh` - A fully automated build script that will build Quantum Espresso against Intel MKL and OpenMPI
-* `make.sys.openmpi` - A version of 'make.sys' that will build against Intel MKL and OpenMPI
-* `make.sys.mvapich2` - A version of 'make.sys' that will build against Intel MKL and MVAPICH2
+* `build-espresso.sh` - A fully automated build script that will build Quantum Espresso against Intel MKL.  Offers your choice of MVAPICH2 (recommended and default) or OpenMPI (not recommended, not default)
+* `make.sys.mvapich2` - A version of 'make.sys' that will build against Intel MKL and MVAPICH2 (same as the one produced by build-espresso.sh; uses MKL's FFTW3 and ScaLAPACK)
+* `make.sys.openmpi` - A version of 'make.sys' that will build against Intel MKL and OpenMPI (same as the one produced by build-espresso.sh; uses MKL's FFTW3 and serial LAPACK)
 
 Compatibility Notes
 -------------------
