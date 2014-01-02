@@ -8,6 +8,7 @@
 #PBS -q normal
 #PBS -l nodes=4:ppn=16:native
 #PBS -l walltime=1:00:00
+#PBS -v Catalina_maxhops=None,QOS=0
 
 TASKS=tasks                 # the name of your tasks list
 module load octave          # if your tasks need the octave module 

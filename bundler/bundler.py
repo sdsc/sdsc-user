@@ -18,7 +18,7 @@ except IOError:
 hostname = socket.gethostname()
 
 if hostname.startswith( 'trestles' ):
-    sys.path.append(r'/home/diag/opt/mpi4py/1.2.2/lib64/python2.4/site-packages')
+    sys.path.append(r'/home/diag/opt/mpi4py/mvapich2/gnu/1.3.1/lib/python')
 elif hostname.startswith( 'gcn' ) or hostname.startswith( 'gordon' ):
     sys.path.append(r'/home/diag/opt/mpi4py/mvapich2/intel/1.3.1/lib/python')
 
