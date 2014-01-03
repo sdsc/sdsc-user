@@ -3,19 +3,11 @@
 #  Meta-build process to compile Quantum Espresso on XSEDE/SDSC's Gordon and
 #  Trestles resources.
 #
-#  Glenn K. Lockwood, San Diego Supercomputer Center             December 2013
-################################################################################
-#
-#  This script automates the following process:
-#
-#  1. First do a ./configure with Intel compilers.  MKL will be picked up and
-#     used for BLAS and SCALAPACK.  To enable it for FFTW3 and LAPACK, you'll
-#     need to edit make.sys and
-#  2. Replace the -D__FFTW definition with -D__FFTW3
-#  3. Copy the contents of BLAS_LIB to LAPACK_LIB
-#
 #  This script should run out of your Quantum Espresso source tree.  Tested with
 #  version 5.0.1 and 5.0.3 on SDSC Gordon and Trestles
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center             December 2013
+################################################################################
 
 ### Detect whether we are using MVAPICH2 or OpenMPI
 if [[ $LOADEDMODULES == *mvapich2_ib* ]]; then
@@ -49,12 +41,37 @@ fi
 module purge
 module load gnubase $COMPILER ${MPI_STACK}_ib 
 
-make distclean
+### Reset source tree to pristine state
+make veryclean
 
-### PGI users should use our FFTW3 module before autoconf
+### PGI relies on external libraries which must be passed to autoconf
 if [ "z$COMPILER" == "zpgi" ]; then
-  module load fftw
-  LDFLAGS="$LDFLAGS -L $FFTWHOME/lib -lfftw3 -L $PGIHOME/libso"
+
+  # Load FFT library (FFTW3)
+  module load fftw 
+  export FFT_LIBS="-L $FFTWHOME/lib -lfftw3"
+
+  # Load basic linear algebra subroutines (BLAS) 
+  # We provide ACML or Netlib (no ATLAS installed)
+  export BLAS_LIBS="-L $PGIHOME/libso -lacml"
+# module load lapack
+# export BLAS_LIBS="-L $LAPACKHOME/lib -lblas"
+
+  # LAPACK
+  export LAPACK_LIBS="-L$LAPACKHOME/lib -llapack"
+
+  # ScaLAPACK
+  module load scalapack
+  if [ "z$SCALAPACKHOME" == "z" ]; then
+    # as of Jan 3, 2013, we do not provide ScaLAPACK for PGI+OpenMPI
+    echo "No ScaLAPACK available for $COMPILER with $MPI_STACK" >&2
+    module unload scalapack
+  else 
+    # ScaLAPACK supercedes LAPACK
+    export SCALAPACK_LIBS="-L$SCALAPACKHOME/lib -lscalapack"
+    module unload lapack
+    export LAPACK_LIBS=""
+  fi
 fi
 
 ### Generate a reasonable starting point for make.sys
@@ -84,9 +101,9 @@ if [ "z$COMPILER" == "zintel" ]; then
 
   ### Disable MKL ScaLAPACK if using OpenMPI due to performance problems with 
   ### OpenMPI and ScaLAPACK 
-  if [ "z$MPI_STACK" == "zopenmpi" ]; then
-    sed -i 's/-D__SCALAPACK//' make.sys
-  fi
+# if [ "z$MPI_STACK" == "zopenmpi" ]; then
+#   sed -i 's/-D__SCALAPACK//' make.sys
+# fi
 elif [ "z$COMPILER" == "zpgi" ]; then
   ### There are known conflicts between PGI and the IOTK library used by 
   ### ESPRESSO
@@ -94,7 +111,7 @@ elif [ "z$COMPILER" == "zpgi" ]; then
 fi
 
 ### Perform the build
-make pw #all
+make all
 
 ### Check for errors
 if [ $? -ne 0 ]; then
