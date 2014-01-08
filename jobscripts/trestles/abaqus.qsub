@@ -18,9 +18,8 @@
 JOBNAME=abaqusjob
 
 # Load the Abaqus module
-. /etc/profile.d/modules.sh
-module purge
-module load intel
+export MODULEPATH=/home/diag/opt/modulefiles/applications:$MODULEPATH
+module swap pgi intel
 module load abaqus/6.11-2
 
 cd $PBS_O_WORKDIR
