@@ -1,0 +1,16 @@
+#!/bin/bash
+################################################################################
+#  Submit script for LAMMPS on XSEDE/SDSC Trestles
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center              January 2014 
+################################################################################
+#PBS -N lammps
+#PBS -q normal
+#PBS -l nodes=2:ppn=32
+#PBS -l walltime=01:00:00
+
+module load lammps
+
+cd $PBS_O_WORKDIR
+
+mpirun_rsh -np 64 -hostfile $PBS_NODEFILE $(which lammps) -i in.spce -l out.spce

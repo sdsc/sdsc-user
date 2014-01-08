@@ -9,6 +9,10 @@ Quantum Chemistry
 * `g09job-backup.qsub` - [Gaussian](http://www.gaussian.com/) with periodic backup of SSD contents.  Do not use unless you have a good reason to.
 * `qchem.qsub` - [QChem 4.x](http://www.q-chem.com/)
 
+Molecular Dynamics
+------------------
+* `lammps.qsub` - [LAMMPS 17Jun13](http://lammps.sandia.gov/)
+
 Structural Mechanics
 --------------------
 * `abaqus.qsub` - [Abaqus 6.x](http://www.3ds.com/products-services/simulia/portfolio/abaqus)
@@ -17,5 +21,4 @@ Hadoop
 ------
 These scripts will help you run interactive, semi-persistent Hadoop clusters on Gordon with which you can interact directly using the command line.  We provide these at our Hadoop training workshops and are the easiest way to get started using Hadoop on Gordon.
 
-* `hadoop-1.1.1.qsub` - When in doubt, use this script.  See documentation at top of script for more information on how to use.
-* `hadoop-1.0.4.qsub` - Submit script for an earlier version of Hadoop which is needed to use HBase on Gordon
+* `hadoop-cluster.qsub` - See documentation at top of script for more information on how to use.
