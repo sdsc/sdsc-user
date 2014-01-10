@@ -4,7 +4,16 @@
 #include <string.h>
 #include <unistd.h>
 #include <sched.h>
-#include <mpi.h>
+#if !defined(NO_MPI)
+  #include <mpi.h>
+#else
+  #define MPI_COMM_WORLD 0
+  void MPI_Init( int *argc, char ***argv ) { return; }
+  void MPI_Barrier( int comm ) { return; }
+  void MPI_Finalize( void ) { return; }
+  void MPI_Comm_rank( int comm, int *rank ) { *rank = 0; return; }
+  void MPI_Comm_size( int comm, int *rank ) { *rank = 1; return; }
+#endif
 
 void print_hello( int mpi_rank, int mpi_size );
 
