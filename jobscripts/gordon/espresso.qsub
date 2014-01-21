@@ -16,7 +16,7 @@ preserve_ssds() {
     do
         echo "$(date) :: Copying output data from node $node"
         command="cd $ESPRESSO_TMPDIR && tar cvf $PBS_O_WORKDIR/node$nn-output.tar *"
-        if [ $1 == "parallel" ]; then
+        if [ "z$1" == "zparallel" ]; then
             ssh $node "$command" &
         else
             ssh $node "$command"
