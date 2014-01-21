@@ -11,9 +11,12 @@
 
 USE_FFTW=0
 USE_NETLIB=0
+ESPRESSO_TARGETS=all
 
 ### Detect whether we are using MVAPICH2 or OpenMPI
 if [[ $LOADEDMODULES == *mvapich2_ib* ]]; then
+  MPI_STACK=mvapich2
+elif [[ $LOADEDMODULES == *mv2profile_ib* ]]; then
   MPI_STACK=mvapich2
 elif [[ $LOADEDMODULES == *openmpi_ib* ]]; then
   MPI_STACK=openmpi
@@ -132,7 +135,10 @@ elif [ "z$COMPILER" == "zpgi" ]; then
   ### ScaLAPACK loads on top of ACML
   module load scalapack
   if [ "z$SCALAPACKHOME" == "z" ]; then
-    # as of Jan 3, 2013, we do not provide ScaLAPACK for PGI+OpenMPI
+    # as of Jan 3, 2013, we do not provide ScaLAPACK for PGI+OpenMPI.  I have
+    # it built on the Gordon side for adventurous users, but this is not 
+    # officially supported.
+    #export SCALAPACK_LIBS="-L/home/glock/apps/scalapack-2.0.2/pgi/openmpi -lscalapack"
     echo "*** No ScaLAPACK available for $COMPILER with $MPI_STACK" >&2
     module unload scalapack
   else 
@@ -169,7 +175,7 @@ elif [ "z$COMPILER" == "zpgi" ]; then
 fi
 
 ### Perform the build
-make -j16 pw || make pw #all
+make $ESPRESSO_TARGETS
 
 ### Check for errors
 if [ $? -ne 0 ]; then
