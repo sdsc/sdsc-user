@@ -174,6 +174,11 @@ elif [ "z$COMPILER" == "zpgi" ]; then
   /bin/true
 fi
 
+### Fix autoconf automatically picking up /usr/lib/libfftw3.so
+if [ $USE_FFTW -eq 0 ]; then
+    sed -i 's/-lfftw3//g' make.sys
+fi
+
 ### Perform the build
 make $ESPRESSO_TARGETS
 
