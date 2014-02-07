@@ -1,64 +1,64 @@
-/opt/octave/bin/octave ./main.m 1 1 > out.1.1
-/opt/octave/bin/octave ./main.m 2 1 > out.2.1
-/opt/octave/bin/octave ./main.m 3 1 > out.3.1
-/opt/octave/bin/octave ./main.m 4 1 > out.4.1
-/opt/octave/bin/octave ./main.m 5 1 > out.5.1
-/opt/octave/bin/octave ./main.m 6 1 > out.6.1
-/opt/octave/bin/octave ./main.m 7 1 > out.7.1
-/opt/octave/bin/octave ./main.m 8 1 > out.8.1
-/opt/octave/bin/octave ./main.m 1 2 > out.1.2
-/opt/octave/bin/octave ./main.m 2 2 > out.2.2
-/opt/octave/bin/octave ./main.m 3 2 > out.3.2
-/opt/octave/bin/octave ./main.m 4 2 > out.4.2
-/opt/octave/bin/octave ./main.m 5 2 > out.5.2
-/opt/octave/bin/octave ./main.m 6 2 > out.6.2
-/opt/octave/bin/octave ./main.m 7 2 > out.7.2
-/opt/octave/bin/octave ./main.m 8 2 > out.8.2
-/opt/octave/bin/octave ./main.m 1 3 > out.1.3
-/opt/octave/bin/octave ./main.m 2 3 > out.2.3
-/opt/octave/bin/octave ./main.m 3 3 > out.3.3
-/opt/octave/bin/octave ./main.m 4 3 > out.4.3
-/opt/octave/bin/octave ./main.m 5 3 > out.5.3
-/opt/octave/bin/octave ./main.m 6 3 > out.6.3
-/opt/octave/bin/octave ./main.m 7 3 > out.7.3
-/opt/octave/bin/octave ./main.m 8 3 > out.8.3
-/opt/octave/bin/octave ./main.m 1 4 > out.1.4
-/opt/octave/bin/octave ./main.m 2 4 > out.2.4
-/opt/octave/bin/octave ./main.m 3 4 > out.3.4
-/opt/octave/bin/octave ./main.m 4 4 > out.4.4
-/opt/octave/bin/octave ./main.m 5 4 > out.5.4
-/opt/octave/bin/octave ./main.m 6 4 > out.6.4
-/opt/octave/bin/octave ./main.m 7 4 > out.7.4
-/opt/octave/bin/octave ./main.m 8 4 > out.8.4
-/opt/octave/bin/octave ./main.m 1 5 > out.1.5
-/opt/octave/bin/octave ./main.m 2 5 > out.2.5
-/opt/octave/bin/octave ./main.m 3 5 > out.3.5
-/opt/octave/bin/octave ./main.m 4 5 > out.4.5
-/opt/octave/bin/octave ./main.m 5 5 > out.5.5
-/opt/octave/bin/octave ./main.m 6 5 > out.6.5
-/opt/octave/bin/octave ./main.m 7 5 > out.7.5
-/opt/octave/bin/octave ./main.m 8 5 > out.8.5
-/opt/octave/bin/octave ./main.m 1 6 > out.1.6
-/opt/octave/bin/octave ./main.m 2 6 > out.2.6
-/opt/octave/bin/octave ./main.m 3 6 > out.3.6
-/opt/octave/bin/octave ./main.m 4 6 > out.4.6
-/opt/octave/bin/octave ./main.m 5 6 > out.5.6
-/opt/octave/bin/octave ./main.m 6 6 > out.6.6
-/opt/octave/bin/octave ./main.m 7 6 > out.7.6
-/opt/octave/bin/octave ./main.m 8 6 > out.8.6
-/opt/octave/bin/octave ./main.m 1 7 > out.1.7
-/opt/octave/bin/octave ./main.m 2 7 > out.2.7
-/opt/octave/bin/octave ./main.m 3 7 > out.3.7
-/opt/octave/bin/octave ./main.m 4 7 > out.4.7
-/opt/octave/bin/octave ./main.m 5 7 > out.5.7
-/opt/octave/bin/octave ./main.m 6 7 > out.6.7
-/opt/octave/bin/octave ./main.m 7 7 > out.7.7
-/opt/octave/bin/octave ./main.m 8 7 > out.8.7
-/opt/octave/bin/octave ./main.m 1 8 > out.1.8
-/opt/octave/bin/octave ./main.m 2 8 > out.2.8
-/opt/octave/bin/octave ./main.m 3 8 > out.3.8
-/opt/octave/bin/octave ./main.m 4 8 > out.4.8
-/opt/octave/bin/octave ./main.m 5 8 > out.5.8
-/opt/octave/bin/octave ./main.m 6 8 > out.6.8
-/opt/octave/bin/octave ./main.m 7 8 > out.7.8
-/opt/octave/bin/octave ./main.m 8 8 > out.8.8
+./my_serial_application ./myinput1.txt > myoutput1.txt
+./my_serial_application ./myinput2.txt > myoutput2.txt
+./my_serial_application ./myinput3.txt > myoutput3.txt
+./my_serial_application ./myinput4.txt > myoutput4.txt
+./my_serial_application ./myinput5.txt > myoutput5.txt
+./my_serial_application ./myinput6.txt > myoutput6.txt
+./my_serial_application ./myinput7.txt > myoutput7.txt
+./my_serial_application ./myinput8.txt > myoutput8.txt
+./my_serial_application ./myinput9.txt > myoutput9.txt
+./my_serial_application ./myinput10.txt > myoutput10.txt
+./my_serial_application ./myinput11.txt > myoutput11.txt
+./my_serial_application ./myinput12.txt > myoutput12.txt
+./my_serial_application ./myinput13.txt > myoutput13.txt
+./my_serial_application ./myinput14.txt > myoutput14.txt
+./my_serial_application ./myinput15.txt > myoutput15.txt
+./my_serial_application ./myinput16.txt > myoutput16.txt
+./my_serial_application ./myinput17.txt > myoutput17.txt
+./my_serial_application ./myinput18.txt > myoutput18.txt
+./my_serial_application ./myinput19.txt > myoutput19.txt
+./my_serial_application ./myinput20.txt > myoutput20.txt
+./my_serial_application ./myinput21.txt > myoutput21.txt
+./my_serial_application ./myinput22.txt > myoutput22.txt
+./my_serial_application ./myinput23.txt > myoutput23.txt
+./my_serial_application ./myinput24.txt > myoutput24.txt
+./my_serial_application ./myinput25.txt > myoutput25.txt
+./my_serial_application ./myinput26.txt > myoutput26.txt
+./my_serial_application ./myinput27.txt > myoutput27.txt
+./my_serial_application ./myinput28.txt > myoutput28.txt
+./my_serial_application ./myinput29.txt > myoutput29.txt
+./my_serial_application ./myinput30.txt > myoutput30.txt
+./my_serial_application ./myinput31.txt > myoutput31.txt
+./my_serial_application ./myinput32.txt > myoutput32.txt
+./my_serial_application ./myinput33.txt > myoutput33.txt
+./my_serial_application ./myinput34.txt > myoutput34.txt
+./my_serial_application ./myinput35.txt > myoutput35.txt
+./my_serial_application ./myinput36.txt > myoutput36.txt
+./my_serial_application ./myinput37.txt > myoutput37.txt
+./my_serial_application ./myinput38.txt > myoutput38.txt
+./my_serial_application ./myinput39.txt > myoutput39.txt
+./my_serial_application ./myinput40.txt > myoutput40.txt
+./my_serial_application ./myinput41.txt > myoutput41.txt
+./my_serial_application ./myinput42.txt > myoutput42.txt
+./my_serial_application ./myinput43.txt > myoutput43.txt
+./my_serial_application ./myinput44.txt > myoutput44.txt
+./my_serial_application ./myinput45.txt > myoutput45.txt
+./my_serial_application ./myinput46.txt > myoutput46.txt
+./my_serial_application ./myinput47.txt > myoutput47.txt
+./my_serial_application ./myinput48.txt > myoutput48.txt
+./my_serial_application ./myinput49.txt > myoutput49.txt
+./my_serial_application ./myinput50.txt > myoutput50.txt
+./my_serial_application ./myinput51.txt > myoutput51.txt
+./my_serial_application ./myinput52.txt > myoutput52.txt
+./my_serial_application ./myinput53.txt > myoutput53.txt
+./my_serial_application ./myinput54.txt > myoutput54.txt
+./my_serial_application ./myinput55.txt > myoutput55.txt
+./my_serial_application ./myinput56.txt > myoutput56.txt
+./my_serial_application ./myinput57.txt > myoutput57.txt
+./my_serial_application ./myinput58.txt > myoutput58.txt
+./my_serial_application ./myinput59.txt > myoutput59.txt
+./my_serial_application ./myinput60.txt > myoutput60.txt
+./my_serial_application ./myinput61.txt > myoutput61.txt
+./my_serial_application ./myinput62.txt > myoutput62.txt
+./my_serial_application ./myinput63.txt > myoutput63.txt
+./my_serial_application ./myinput64.txt > myoutput64.txt

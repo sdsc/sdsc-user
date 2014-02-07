@@ -14,11 +14,6 @@ SDSC Gordon or Trestles.  The files are
 * trestles.qsub - this is the script that illustrates how to submit a bundled 
   job to Trestles
 
-This particular example calls an Octave (Matlab) script with several different
-input parameters.  The octave module needs to be loaded in the submit script,
-but if your application does not need any special modules, you can remove the
-relevant `module load octave` line from your `.qsub` file.
-
 To change the number of bundled sub-tasks, you must
 
 1. Modify your "tasks" file to contain the correct number of lines, each one
@@ -27,3 +22,14 @@ To change the number of bundled sub-tasks, you must
    `-l nodes=X:ppn=Y` to request the correct number of nodes and processors 
    per node.  It is OK to request more cores than you have tasks (e.g., 
    request `-l nodes=2:ppn=16` if you only have 24 tasks)
+
+There are also a few subdirectories containing examples for different use cases:
+
+* massive - how to use the bundler to run a massive amount (thousands to tens of
+    thousands) of short-running, serial tasks
+* OpenMP - how to use the bundler to run several multithreaded jobs that use 
+    OpenMP
+* gaussian - how to use the bundler to run several Gaussian jobs that use 
+    multiple cores (conceptually the same as OpenMP)
+* octave - how to use the bundler with an application that requires a module 
+    such as octave

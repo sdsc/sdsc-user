@@ -7,5 +7,3 @@ The files included are
     are packing two 8-thread jobs per node
 * trestles-OpenMP.qsub - an appropriate submit script for Trestles, assuming
     you are packing four 8-thread jobs per node
-
-You will need bundler.py from the directory below this one.

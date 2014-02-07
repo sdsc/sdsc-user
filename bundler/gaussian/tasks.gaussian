@@ -1,0 +1,5 @@
+$(which g09) < input1.com > output1.txt
+$(which g09) < input2.com > output2.txt
+$(which g09) < input3.com > output3.txt
+$(which g09) < input4.com > output4.txt
+$(which g09) < input5.com > output5.txt

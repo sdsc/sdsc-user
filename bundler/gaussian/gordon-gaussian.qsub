@@ -1,26 +1,26 @@
 #!/bin/bash
 ################################################################################
 #  Submit script for SDSC's Python-based job bundler for XSEDE/SDSC Gordon.
-#  This script shows how to bundle applications which are multithreaded with
-#  OpenMP.
+#  This script shows how to bundle multiple multithreaded Gaussian jobs into
+#  a single job submission.
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center             November 2013
 ################################################################################
 #PBS -N bundler.gordon
 #PBS -q normal
-#PBS -l nodes=2:ppn=16:native
+#PBS -l nodes=3:ppn=16:native
 #PBS -l walltime=1:00:00
 #PBS -v Catalina_maxhops=None,QOS=0
 
-TASKS=tasks.OpenMP          # the name of your tasks list
+TASKS=tasks.gaussian        # the name of your tasks list
 
 cd $PBS_O_WORKDIR
 module load python/2.7.3    # necessary for bundler.py on Gordon
+module load gaussian
 
 # -npernode 2 means we want to run two tasks per node
-# -tpp 8 means each task will use 8 OpenMP threads (see the tasks.OpenMP file)
-#    Thus, (2 nodes)*(2 processes per node)*(8 threads per process) = 32 cores,
-#    which we requested in the form of nodes=2:ppn=16 above.
+# -tpp 8 means each task will use 8 threads (%nproc=8 in the Link0 section of 
+#   the input)
 ibrun -npernode 2 -tpp 8 \
     /home/diag/opt/mpi4py/mvapich2/intel/1.3.1/lib/python/mpi4py/bin/python-mpi \
     /home/diag/opt/sdsc-user/bundler/bundler.py $TASKS
