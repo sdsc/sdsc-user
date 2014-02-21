@@ -8,6 +8,7 @@ Quantum Chemistry
 * `g09job.qsub` - [Gaussian](http://www.gaussian.com/) standard submit script.  Use this unless you have a specific reason to use the script below.
 * `g09job-backup.qsub` - [Gaussian](http://www.gaussian.com/) with periodic backup of SSD contents.  Do not use unless you have a good reason to.
 * `qchem.qsub` - [QChem 4.x](http://www.q-chem.com/)
+* `vasp.qsub` - [VASP 4.x and 5.x](https://www.vasp.at/)
 
 Molecular Dynamics
 ------------------

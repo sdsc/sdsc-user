@@ -1,0 +1,28 @@
+#!/bin/bash
+################################################################################
+#  Submit script for VASP on XSEDE/SDSC Gordon
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center             February 2014 
+################################################################################
+#PBS -N vasp
+#PBS -q normal
+#PBS -l nodes=2:ppn=16:native
+#PBS -l walltime=01:00:00
+
+module load vasp
+
+VASP=$(which vasp)
+
+cd $PBS_O_WORKDIR
+
+### Make sure you are allowed to run vasp first
+if [ "z$VASP" == "z" ]; then
+  echo "You do not appear to have permission to run VASP.  Please contact help@xsede.org." >&2
+  exit 1
+### Also make sure you aren't running out of your home directory!
+elif [[ $(readlink -f $PWD) =~ /home ]]; then
+  echo "You should never run VASP out of your /home directory.  Please copy your input files to /oasis/scratch/$USER/temp_project and run VASP from there." >&2
+  exit 2
+fi
+
+mpirun_rsh -np $PBS_NP -hostfile $PBS_NODEFILE $VASP
