@@ -1,0 +1,16 @@
+#!/bin/bash
+################################################################################
+#  SOAPdenovo job submission script for XSEDE/SDSC Trestles
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center               March 2014
+################################################################################
+#PBS -N soapdenovo
+#PBS -q normal
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=1:00:00
+
+module load biotools
+
+cd $PBS_O_WORKDIR
+
+SOAPdenovo all -s /home/diag/opt/soapdenovo/1.05/examples/Ecoli.config -o Ecoli.K31 -K 31 -p 8 -R

@@ -1,0 +1,17 @@
+#!/bin/bash
+################################################################################
+#  Velvet job submission script for XSEDE/SDSC Trestles
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center               March 2014
+################################################################################
+#PBS -N velvet
+#PBS -q normal
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=1:00:00
+
+cd $PBS_O_WORKDIR
+
+module load biotools
+
+velveth output.Ecoli.k31 31 -shortPaired -fastq /home/diag/opt/velvet/1.0.12/examples/reads.Ecoli.fastq
+velvetg output.Ecoli.k31 -ins_length 200 -exp_cov auto
