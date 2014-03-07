@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --posix
 ################################################################################
 #  Meta-build process to compile Quantum Espresso on XSEDE/SDSC's Gordon and
 #  Trestles resources.
