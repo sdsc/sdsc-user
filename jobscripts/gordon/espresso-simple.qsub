@@ -1,0 +1,20 @@
+#!/bin/bash
+################################################################################
+#  Submit script for Quantum Espresso on XSEDE/SDSC Gordon.  This version does
+#  NOT use the SSDs on each node and is only suitable for smaller (e.g., four
+#  nodes or less) runs.
+#
+#  Glenn K. Lockwood, San Diego Supercomputer Center             November 2013
+################################################################################
+#PBS -N espresso
+#PBS -l nodes=4:ppn=16:native
+#PBS -l walltime=10:00:00
+#PBS -q normal
+
+cd $PBS_O_WORKDIR
+
+export ESPRESSO_HOME=$HOME/espresso-5.0.3
+export ESPRESSO_TMPDIR=$PBS_O_WORKDIR
+export ESPRESSO_PSEUDO=$ESPRESSO_HOME/pseudo
+
+mpirun_rsh -np $PBS_NP -hostfile $PBS_NODEFILE $ESPRESSO_HOME/bin/pw.x < espresso.in

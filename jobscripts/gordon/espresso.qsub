@@ -1,6 +1,11 @@
 #!/bin/bash
 ################################################################################
-#  Submit script for Quantum Espresso on XSEDE/SDSC Gordon
+#  Submit script for Quantum Espresso on XSEDE/SDSC Gordon.  This version uses
+#  each node's SSD for scratch space and copies all of the data back at the very
+#  end of the run.  
+#
+#  *** If you run out of walltime, your data will not be copied back and 
+#  *** will be lost, so be careful about setting your walltime appropriately!
 #
 #  Glenn K. Lockwood, San Diego Supercomputer Center             November 2013
 ################################################################################
@@ -28,12 +33,10 @@ preserve_ssds() {
 
 cd $PBS_O_WORKDIR
 
-module swap mvapich2_ib openmpi_ib
-
-export ESPRESSO_HOME=$HOME/espresso-5.0.1 
+export ESPRESSO_HOME=$HOME/espresso-5.0.3
 export ESPRESSO_TMPDIR=/scratch/$USER/$PBS_JOBID 
 export ESPRESSO_PSEUDO=$ESPRESSO_HOME/pseudo
 
-mpirun $ESPRESSO_HOME/bin/pw.x < espresso.in
+mpirun_rsh -np $PBS_NP -hostfile $PBS_NODEFILE $ESPRESSO_HOME/bin/pw.x < espresso.in
 
 preserve_ssds
